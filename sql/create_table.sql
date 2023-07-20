@@ -1,6 +1,4 @@
 # 建表脚本
-# @author <a href="https://github.com/lichenmeng">程序员鱼皮</a>
-# @from <a href="https://chenmeng.icu">编程导航知识星球</a>
 
 -- 创建库
 create database if not exists chenmeng_search;
