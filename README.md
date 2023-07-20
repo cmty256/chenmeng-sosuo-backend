@@ -1,3 +1,9 @@
+后端代码仓库地址：[chenmeng-sosuo-backend: 多源信息聚合平台的后端代码仓库 (gitee.com)](https://gitee.com/dream-deeply-tyu/chenmeng-sosuo-backend)
+
+前端代码仓库地址：[沉梦听雨/chenmeng-sosuo-frontend (gitee.com)](https://gitee.com/dream-deeply-tyu/chenmeng-sosuo-frontend)
+
+
+
 后端运行：
 
 1. 启动 elasticsearch
