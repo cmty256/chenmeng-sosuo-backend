@@ -2,6 +2,7 @@ package com.chenmeng.project.manager;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chenmeng.project.common.ErrorCode;
+import com.chenmeng.project.datasource.*;
 import com.chenmeng.project.exception.BusinessException;
 import com.chenmeng.project.exception.ThrowUtils;
 import com.chenmeng.project.model.entity.Picture;
@@ -9,23 +10,20 @@ import com.chenmeng.project.model.enums.SearchTypeEnum;
 import com.chenmeng.project.model.vo.PostVO;
 import com.chenmeng.project.model.vo.SearchVO;
 import com.chenmeng.project.model.vo.UserVO;
-import com.chenmeng.project.datasource.DataSource;
-import com.chenmeng.project.datasource.PictureDataSource;
-import com.chenmeng.project.datasource.PostDataSource;
-import com.chenmeng.project.datasource.UserDataSource;
 import com.chenmeng.project.model.dto.search.SearchRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * 搜索门面
+ *
+ */
 @Component
 @Slf4j
 public class SearchFacade {
@@ -38,6 +36,9 @@ public class SearchFacade {
 
     @Resource
     private PictureDataSource pictureDataSource;
+
+    @Resource
+    private DataSourceRegistry dataSourceRegistry;
 
     public SearchVO searchAll(@RequestBody SearchRequest searchRequest, HttpServletRequest request) {
         String type = searchRequest.getType();
@@ -75,16 +76,21 @@ public class SearchFacade {
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR, "查询异常");
             }
         } else {
-            Map<String, DataSource<T>> typeDataSourcesMap = new HashMap() {{
-                put(SearchTypeEnum.POST.getValue(), postDataSource);
-                put(SearchTypeEnum.USER.getValue(), userDataSource);
-                put(SearchTypeEnum.PICTURE.getValue(), pictureDataSource);
-            }};
             SearchVO searchVO = new SearchVO();
-            DataSource<?> dataSource = typeDataSourcesMap.get(type);
+            DataSource<?> dataSource = dataSourceRegistry.getDataSourceByType(type);
             Page<?> page = dataSource.doSearch(searchText, current, pageSize);
             searchVO.setDataList(page.getRecords());
             return searchVO;
+            // Map<String, DataSource<T>> typeDataSourcesMap = new HashMap() {{
+            //     put(SearchTypeEnum.POST.getValue(), postDataSource);
+            //     put(SearchTypeEnum.USER.getValue(), userDataSource);
+            //     put(SearchTypeEnum.PICTURE.getValue(), pictureDataSource);
+            // }};
+            // SearchVO searchVO = new SearchVO();
+            // DataSource<?> dataSource = typeDataSourcesMap.get(type);
+            // Page<?> page = dataSource.doSearch(searchText, current, pageSize);
+            // searchVO.setDataList(page.getRecords());
+            // return searchVO;
         }
     }
 }
