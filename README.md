@@ -14,7 +14,7 @@
 .\bin\elasticsearch.bat
 ```
 
-2. 启动 kibana.bat
+2. 启动 kibana.bat （不查看 kibana 的话，可不运行）
 
 在 bin 目录下运行
 

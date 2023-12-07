@@ -1,25 +1,26 @@
 server:
   port: 8101
+  address: 0.0.0.0
 spring:
   # 数据库配置
   # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/chenmeng_search
+    url: jdbc:mysql://192.168.194.133:3306/chenmeng_search
     username: root
-    password: 123456
+    password: MyNewPass4!
   # Redis 配置
   # todo 需替换配置
   redis:
     database: 1
-    host: localhost
+    host: 192.168.194.133
     port: 6379
     timeout: 5000
     password: 123321
   # Elasticsearch 配置
   # todo 需替换配置
   elasticsearch:
-    uris: http://localhost:9200
+    uris: http://192.168.194.133:9200
     username: root
     password: 123456
 mybatis-plus:
